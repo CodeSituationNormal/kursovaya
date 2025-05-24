@@ -1,0 +1,42 @@
+// {
+// 	"version": "2.0.0",
+// 	"tasks": [
+// 		{
+// 			"type": "cmake",
+// 			"label": "CMake: build",
+// 			"command": "build",
+// 			"targets": [
+// 				"all"
+// 			],
+// 			"group": {
+// 				"kind": "build",
+// 				"isDefault": true
+// 			},
+// 			"problemMatcher": [],
+// 			"detail": "CMake template build task"
+// 		}
+// 	]
+// }
+
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build all",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-g",
+                "*.cpp",
+                "-o",
+                "main.exe" // или "main" для Linux/Mac
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Компиляция всех .cpp файлов"
+        }
+    ]
+}
