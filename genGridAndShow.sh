@@ -1,3 +1,4 @@
 cd build
 ./kursovaya.exe
-python ../3DGrid.py
+cd ..
+python 3DGrid.py
