@@ -1,10 +1,4 @@
 # ninja log v6
 3	13	7697721223327984	clean	9c4b4372737ab8da
-11	701	7697721227151648	CMakeFiles/kursovaya.dir/gridGeneration.cpp.obj	7a9b43a5ff3c83e
-702	1111	7697721233961548	kursovaya.exe	9a71739b1ba0d868
-4	674	7697724366423338	CMakeFiles/kursovaya.dir/gridGeneration.cpp.obj	7a9b43a5ff3c83e
-675	874	7697724373063682	kursovaya.exe	9a71739b1ba0d868
-3	677	7697724800560576	CMakeFiles/kursovaya.dir/gridGeneration.cpp.obj	7a9b43a5ff3c83e
-677	1124	7697724807369925	kursovaya.exe	9a71739b1ba0d868
-3	669	7697725163970831	CMakeFiles/kursovaya.dir/gridGeneration.cpp.obj	7a9b43a5ff3c83e
 669	1103	7697725170558172	kursovaya.exe	9a71739b1ba0d868
+3	669	7697725163970831	CMakeFiles/kursovaya.dir/gridGeneration.cpp.obj	7a9b43a5ff3c83e

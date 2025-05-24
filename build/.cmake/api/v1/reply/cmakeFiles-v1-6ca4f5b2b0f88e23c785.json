@@ -286,6 +286,11 @@
 		{
 			"isCMake" : true,
 			"isExternal" : true,
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Compiler/GNU-FindBinUtils.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
 			"path" : "C:/msys64/mingw64/share/cmake/Modules/CMakeCCompiler.cmake.in"
 		},
 		{
@@ -535,6 +540,11 @@
 		{
 			"isCMake" : true,
 			"isExternal" : true,
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Compiler/GNU-FindBinUtils.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
 			"path" : "C:/msys64/mingw64/share/cmake/Modules/CMakeCXXCompiler.cmake.in"
 		},
 		{
@@ -579,12 +589,12 @@
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "C:/msys64/mingw64/share/cmake/Modules/Compiler/MSVC-C.cmake"
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Compiler/GNU-C.cmake"
 		},
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "C:/msys64/mingw64/share/cmake/Modules/Compiler/MSVC.cmake"
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Compiler/GNU.cmake"
 		},
 		{
 			"isCMake" : true,
@@ -594,12 +604,12 @@
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Windows-MSVC-C.cmake"
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Windows-GNU-C.cmake"
 		},
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Windows-MSVC.cmake"
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Windows-GNU.cmake"
 		},
 		{
 			"isCMake" : true,
@@ -619,6 +629,11 @@
 			"isCMake" : true,
 			"isExternal" : true,
 			"path" : "C:/msys64/mingw64/share/cmake/Modules/CMakeRCInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Windows-windres.cmake"
 		},
 		{
 			"isCMake" : true,
@@ -697,6 +712,11 @@
 		{
 			"isCMake" : true,
 			"isExternal" : true,
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Windows-GNU-C-ABI.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
 			"path" : "C:/msys64/mingw64/share/cmake/Modules/Internal/CMakeCLinkerInformation.cmake"
 		},
 		{
@@ -707,22 +727,27 @@
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "C:/msys64/mingw64/share/cmake/Modules/Linker/MSVC-C.cmake"
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Linker/GNU-C.cmake"
 		},
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "C:/msys64/mingw64/share/cmake/Modules/Linker/MSVC.cmake"
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Linker/GNU.cmake"
 		},
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Linker/Windows-MSVC-C.cmake"
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Linker/Windows-GNU-C.cmake"
 		},
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Linker/Windows-MSVC.cmake"
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Linker/Windows-GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Linker/GNU.cmake"
 		},
 		{
 			"isCMake" : true,
@@ -747,27 +772,22 @@
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "C:/msys64/mingw64/share/cmake/Modules/Compiler/MSVC-CXX.cmake"
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Compiler/GNU-CXX.cmake"
 		},
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "C:/msys64/mingw64/share/cmake/Modules/Compiler/MSVC.cmake"
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Compiler/GNU.cmake"
 		},
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "C:/msys64/mingw64/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Windows-GNU-CXX.cmake"
 		},
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Windows-MSVC-CXX.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Windows-MSVC.cmake"
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Windows-GNU.cmake"
 		},
 		{
 			"isCMake" : true,
@@ -832,7 +852,12 @@
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "C:/msys64/mingw64/share/cmake/Modules/Compiler/MSVC-CXX-CXXImportStd.cmake"
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Compiler/GNU-CXX-CXXImportStd.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Compiler/GNU-CXX-CXXImportStd.cmake"
 		},
 		{
 			"isCMake" : true,
@@ -842,6 +867,11 @@
 		{
 			"isGenerated" : true,
 			"path" : "build/CMakeFiles/4.0.0/CMakeCXXCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Windows-GNU-CXX-ABI.cmake"
 		},
 		{
 			"isCMake" : true,
@@ -856,22 +886,22 @@
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "C:/msys64/mingw64/share/cmake/Modules/Linker/MSVC-CXX.cmake"
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Linker/GNU-CXX.cmake"
 		},
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "C:/msys64/mingw64/share/cmake/Modules/Linker/MSVC.cmake"
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Linker/GNU.cmake"
 		},
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Linker/Windows-MSVC-CXX.cmake"
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Linker/Windows-GNU-CXX.cmake"
 		},
 		{
 			"isCMake" : true,
 			"isExternal" : true,
-			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Linker/Windows-MSVC.cmake"
+			"path" : "C:/msys64/mingw64/share/cmake/Modules/Platform/Linker/Windows-GNU.cmake"
 		},
 		{
 			"isCMake" : true,
