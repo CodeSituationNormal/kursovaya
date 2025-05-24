@@ -10,4 +10,4 @@ else()
 endif()
 
 include_directories(include)
-add_executable(kursovaya input.cpp gridGeneration.cpp hexFEM.cpp "common_includes.h")
+add_executable(kursovaya gridGeneration.cpp "common_includes.h")

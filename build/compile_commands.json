@@ -1,20 +1,8 @@
 [
 {
   "directory": "C:/Users/wetous/Desktop/kursovaya/build",
-  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx86\\x86\\cl.exe  /nologo /TP -IC:\\Users\\wetous\\Desktop\\kursovaya\\include /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -MDd -RTC1 -Zi /FoCMakeFiles\\kursovaya.dir\\input.cpp.obj /FdCMakeFiles\\kursovaya.dir\\ /FS -c C:\\Users\\wetous\\Desktop\\kursovaya\\input.cpp",
-  "file": "C:\\Users\\wetous\\Desktop\\kursovaya\\input.cpp",
-  "output": "CMakeFiles\\kursovaya.dir\\input.cpp.obj"
-},
-{
-  "directory": "C:/Users/wetous/Desktop/kursovaya/build",
   "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx86\\x86\\cl.exe  /nologo /TP -IC:\\Users\\wetous\\Desktop\\kursovaya\\include /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -MDd -RTC1 -Zi /FoCMakeFiles\\kursovaya.dir\\gridGeneration.cpp.obj /FdCMakeFiles\\kursovaya.dir\\ /FS -c C:\\Users\\wetous\\Desktop\\kursovaya\\gridGeneration.cpp",
   "file": "C:\\Users\\wetous\\Desktop\\kursovaya\\gridGeneration.cpp",
   "output": "CMakeFiles\\kursovaya.dir\\gridGeneration.cpp.obj"
-},
-{
-  "directory": "C:/Users/wetous/Desktop/kursovaya/build",
-  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx86\\x86\\cl.exe  /nologo /TP -IC:\\Users\\wetous\\Desktop\\kursovaya\\include /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -MDd -RTC1 -Zi /FoCMakeFiles\\kursovaya.dir\\hexFEM.cpp.obj /FdCMakeFiles\\kursovaya.dir\\ /FS -c C:\\Users\\wetous\\Desktop\\kursovaya\\hexFEM.cpp",
-  "file": "C:\\Users\\wetous\\Desktop\\kursovaya\\hexFEM.cpp",
-  "output": "CMakeFiles\\kursovaya.dir\\hexFEM.cpp.obj"
 }
 ]

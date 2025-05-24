@@ -1,6 +1,6 @@
 #include "common_includes.h"
 
-int nx, ny, nz, nt, bc_left, bc_right, n, iter_count, nodes_n, fin_el_n;
+int nx, ny, nz, nt, bc_left, bc_right, n, iter_count, nodes_c, fin_el_n;
 double x_min, x_max, y_min, y_max, z_min, z_max, t_min, t_max, kx, ky, kz, kt, hx, hy, hz, ht;
 vector<node> nodes;
 vector<int> bc1;
@@ -10,14 +10,14 @@ vector<double> t;
 ofstream nodes_out, elements_out;
 
 void buildGrid() {
-   nodes_out.open("nodes_out.txt");
-   elements_out.open("elements_out.txt");
+   nodes_out.open("../nodes_out.txt");
+   elements_out.open("../elements_out.txt");
 
    std::vector<double> x_coords(nx);
    std::vector<double> y_coords(ny);
    std::vector<double> z_coords(nz);
 
-   // Вычисляем шаги
+   // ����塞 蠣�
    double sum;
    if (kx == 1.0) {
       double hx = (x_max - x_min) / (nx - 1);
@@ -32,7 +32,7 @@ void buildGrid() {
          x_coords[i] = x_coords[i - 1] + hx * pow(kx, i - 1);
    }
 
-   // Аналогично для y
+   // �������筮 ��� y
    if (ky == 1.0) {
       double hy = (y_max - y_min) / (ny - 1);
       for (int j = 0; j < ny; ++j)
@@ -46,7 +46,7 @@ void buildGrid() {
          y_coords[j] = y_coords[j - 1] + hy * pow(ky, j - 1);
    }
 
-   // Аналогично для z
+   // �������筮 ��� z
    if (kz == 1.0) {
       double hz = (z_max - z_min) / (nz - 1);
       for (int k = 0; k < nz; ++k)
@@ -60,8 +60,8 @@ void buildGrid() {
          z_coords[k] = z_coords[k - 1] + hz * pow(kz, k - 1);
    }
 
-   // Теперь создаём узлы
-   nodes.clear(); // если нужно
+   // ������ ᮧ��� 㧫�
+   nodes.clear(); // �᫨ �㦭�
    for (int k = 0; k < nz; ++k) {
       for (int j = 0; j < ny; ++j) {
          for (int i = 0; i < nx; ++i) {
@@ -75,14 +75,14 @@ void buildGrid() {
       }
    }
 
-   nodes_n = nodes.size();
+   nodes_c = nodes.size();
    double h_temp = 0;
    for (int j = 1; j < nt; ++j) {
       h_temp = ht * pow(kt, j - 1);
       t[j] = t[j - 1] + h_temp;
    }
    int n_xy = nx * ny;
-   cout << "Построенная сетка элементов:" << endl;
+   cout << "Elements grid:" << endl;
    for (int i = 0; i < nx - 1; i++) {
       for (int j = 0; j < ny - 1; j++) {
          for (int k = 0; k < nz - 1; k++) {
@@ -103,9 +103,9 @@ void buildGrid() {
    }
    fin_el_n = el.size();
    cout << endl;
-   cout << "Координаты всех точек сетки:" << endl;
+   cout << "Coordinates: " << endl;
    for (const auto& n : nodes) {
-      cout << "Точка #" << n.number << ": "
+      cout << "Node #" << n.number << ": "
          << "x = " << n.x << ", "
          << "y = " << n.y << ", "
          << "z = " << n.z << endl;
@@ -116,12 +116,12 @@ void buildGrid() {
    for (const auto& node_n : bc1) cout << node_n << " ";
 }
 void input() {
-   ifstream inputGrid("grid.txt");
-   ifstream inputNodes("nodes.txt");
-   ifstream inputBc("bc.txt");
+   ifstream inputGrid("../grid.txt");
+   ifstream inputNodes("../nodes.txt");
+   ifstream inputBc("../bc.txt");
 
    if (!inputGrid.is_open() || !inputNodes.is_open() || !inputBc.is_open()) {
-      cerr << "Ошибка: Не удалось открыть один из файлов с входными данными." << endl;
+      cerr << "Unable to open input files." << endl;
       exit(1);
    }
 

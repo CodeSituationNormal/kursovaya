@@ -49,25 +49,7 @@ cmake_ninja_workdir = C$:\Users\wetous\Desktop\kursovaya\build\
 
 build cmake_object_order_depends_target_kursovaya: phony || .
 
-build CMakeFiles\kursovaya.dir\input.cpp.obj: CXX_COMPILER__kursovaya_unscanned_Debug C$:\Users\wetous\Desktop\kursovaya\input.cpp || cmake_object_order_depends_target_kursovaya
-  CONFIG = Debug
-  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -MDd -RTC1 -Zi
-  INCLUDES = -IC:\Users\wetous\Desktop\kursovaya\include
-  OBJECT_DIR = CMakeFiles\kursovaya.dir
-  OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir
-  TARGET_COMPILE_PDB = CMakeFiles\kursovaya.dir\
-  TARGET_PDB = kursovaya.pdb
-
 build CMakeFiles\kursovaya.dir\gridGeneration.cpp.obj: CXX_COMPILER__kursovaya_unscanned_Debug C$:\Users\wetous\Desktop\kursovaya\gridGeneration.cpp || cmake_object_order_depends_target_kursovaya
-  CONFIG = Debug
-  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -MDd -RTC1 -Zi
-  INCLUDES = -IC:\Users\wetous\Desktop\kursovaya\include
-  OBJECT_DIR = CMakeFiles\kursovaya.dir
-  OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir
-  TARGET_COMPILE_PDB = CMakeFiles\kursovaya.dir\
-  TARGET_PDB = kursovaya.pdb
-
-build CMakeFiles\kursovaya.dir\hexFEM.cpp.obj: CXX_COMPILER__kursovaya_unscanned_Debug C$:\Users\wetous\Desktop\kursovaya\hexFEM.cpp || cmake_object_order_depends_target_kursovaya
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -MDd -RTC1 -Zi
   INCLUDES = -IC:\Users\wetous\Desktop\kursovaya\include
@@ -84,7 +66,7 @@ build CMakeFiles\kursovaya.dir\hexFEM.cpp.obj: CXX_COMPILER__kursovaya_unscanned
 #############################################
 # Link the executable kursovaya.exe
 
-build kursovaya.exe: CXX_EXECUTABLE_LINKER__kursovaya_Debug CMakeFiles\kursovaya.dir\input.cpp.obj CMakeFiles\kursovaya.dir\gridGeneration.cpp.obj CMakeFiles\kursovaya.dir\hexFEM.cpp.obj
+build kursovaya.exe: CXX_EXECUTABLE_LINKER__kursovaya_Debug CMakeFiles\kursovaya.dir\gridGeneration.cpp.obj
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -MDd -RTC1 -Zi
   LINK_FLAGS = /machine:X86 /debug /INCREMENTAL /subsystem:console
