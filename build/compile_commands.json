@@ -1,8 +1,0 @@
-[
-{
-  "directory": "C:/Users/wetous/Desktop/kursovaya/build",
-  "command": "C:\\msys64\\mingw64\\bin\\c++.exe -IC:/Users/wetous/Desktop/kursovaya/include -g -o CMakeFiles\\kursovaya.dir\\gridGeneration.cpp.obj -c C:\\Users\\wetous\\Desktop\\kursovaya\\gridGeneration.cpp",
-  "file": "C:\\Users\\wetous\\Desktop\\kursovaya\\gridGeneration.cpp",
-  "output": "CMakeFiles\\kursovaya.dir\\gridGeneration.cpp.obj"
-}
-]
