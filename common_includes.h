@@ -9,5 +9,6 @@
 #include <cmath>
 
 #include "structures.h"
+#include "input.h"
 
 using namespace std;

@@ -9,22 +9,6 @@ vector<double> t;
 
 ofstream nodes_out, elements_out;
 
-//double func_u(double x, double y, double z) {
-//   return x * x;
-//}
-//
-//double lambda_val(double u, double x) {
-//   return u;
-//}
-//
-//double func_f(double x, double y, double z) {
-//   return -6 * x * x;
-//}
-//
-//double dif_lambda(double u, double x, double t) {
-//   return 1;
-//}
-
 void buildGrid() {
    nodes_out.open("nodes_out.txt");
    elements_out.open("elements_out.txt");
