@@ -1,0 +1,3 @@
+C:/Users/wetous/Desktop/kursovaya/build/CMakeFiles/kursovaya.dir
+C:/Users/wetous/Desktop/kursovaya/build/CMakeFiles/edit_cache.dir
+C:/Users/wetous/Desktop/kursovaya/build/CMakeFiles/rebuild_cache.dir
