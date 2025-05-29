@@ -13,17 +13,14 @@ struct EL {
    double lambda, gamma;
 };
 
-// extern int el_n = 0, nodes_n = 0, face_n = 0, maxiter = 100000;
-// extern double eps = 1e-14, alpha, beta_beta, norma_pr;
 
-// extern double* b_loc = nullptr;
-// extern double** D = nullptr;
-// extern double** alphaM = nullptr;
-// extern double** A_loc = nullptr;
-// extern double** M_loc = nullptr;
+extern int nodes_c, el_c, face_c, testNumber, maxiter;
+extern double lam, gam, alpha, beta_beta, norma_pr, eps;
+extern vector <node> nodes;
+extern vector <EL> el;
+extern vector <int> faces, ig, jg;
+extern vector<double> u, dif, di, gg, r, b, q, x, y, z, val, Az, Ar, Mr, M;
 
-// extern vector<int> face, ig, jg;
-// extern vector<double> val, gg, di , b, q, r, z, Az, Ar, Mr, M;
+extern vector<double> b_loc;
 
-// extern node* nodes = nullptr; 
-// extern EL* el = nullptr;
+extern vector<vector<double>> A_loc, M_loc, D, alphaM;

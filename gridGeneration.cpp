@@ -1,10 +1,8 @@
 #include "common_includes.h"
 
-int nx, ny, nz, nt, bc_left, bc_right, n, iter_count, nodes_c, fin_el_n;
+int nx, ny, nz, nt, bc_left, bc_right, n;
 double x_min, x_max, y_min, y_max, z_min, z_max, t_min, t_max, kx, ky, kz, kt, hx, hy, hz, ht;
-vector<node> nodes;
 vector<int> bc1;
-vector<EL> el;
 vector<double> t; 
 
 ofstream nodes_out, elements_out;
@@ -13,9 +11,9 @@ void buildGrid() {
    nodes_out.open("../nodes_out.txt");
    elements_out.open("../elements_out.txt");
 
-   std::vector<double> x_coords(nx);
-   std::vector<double> y_coords(ny);
-   std::vector<double> z_coords(nz);
+   vector<double> x_coords(nx);
+   vector<double> y_coords(ny);
+   vector<double> z_coords(nz);
 
    // Вычисляем шаги
    double sum;
@@ -75,7 +73,6 @@ void buildGrid() {
       }
    }
 
-   nodes_c = nodes.size();
    double h_temp = 0;
    for (int j = 1; j < nt; ++j) {
       h_temp = ht * pow(kt, j - 1);
@@ -83,6 +80,7 @@ void buildGrid() {
    }
    int n_xy = nx * ny;
    cout << "Elements grid:" << endl;
+   
    for (int i = 0; i < nx - 1; i++) {
       for (int j = 0; j < ny - 1; j++) {
          for (int k = 0; k < nz - 1; k++) {
@@ -101,7 +99,6 @@ void buildGrid() {
          }
       }
    }
-   fin_el_n = el.size();
    cout << endl;
    cout << "Coordinates: " << endl;
    for (const auto& n : nodes) {
@@ -114,6 +111,9 @@ void buildGrid() {
    for (const auto& node_n : nodes) if ((node_n.x == x_min) || (node_n.x == x_max) || (node_n.y == y_min) || (node_n.y == y_max) || (node_n.z == z_min) || (node_n.z == z_max))
       bc1.push_back(node_n.number);
    for (const auto& node_n : bc1) cout << node_n << " ";
+
+   nodes_out.close();
+   elements_out.close();
 }
 void input() {
    ifstream inputGrid("../grid.txt");
