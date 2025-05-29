@@ -10,6 +10,7 @@ else()
 endif()
 
 include_directories(include)
-add_executable(generate gridGeneration.cpp "common_includes.h")
 
-add_executable(solve hexFEM.cpp input.cpp "common_includes.h" "input.h")
+add_executable(generate gridGeneration.cpp structures.cpp "common_includes.h")
+
+add_executable(solve hexFEM.cpp input.cpp structures.cpp u_functions.cpp "common_includes.h" "input.h")

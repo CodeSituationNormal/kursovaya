@@ -293,7 +293,7 @@ static void CGM() {
       calc_z(r);
     
    }
-   ofstream qFile("q.txt");
+   ofstream qFile("../q.txt");
   
    cout << "q ";
    for (int i = 0; i < nodes_c; i++) {
@@ -304,20 +304,20 @@ static void CGM() {
    r.clear(); z.clear(); Az.clear();
 }
 
-double u_a(int i) {
-   u[i] = sin(nodes[i].x);
-   return u[i];
-}
-void dif_u() {
-   dif.resize(nodes_c);
-   u.resize(nodes_c);
-   ofstream difFile("dif.txt");
-   for (int i = 0; i < nodes_c; i++) {
-      dif[i] = u_a(i) - q[i];
-      difFile << scientific << setprecision(10) << dif[i] << endl;
-   }
-   difFile.close();
-}
+// double u_a(int i) {
+//    u[i] = sin(nodes[i].x);
+//    return u[i];
+// }
+// void dif_u() {
+//    dif.resize(nodes_c);
+//    u.resize(nodes_c);
+//    ofstream difFile("dif.txt");
+//    for (int i = 0; i < nodes_c; i++) {
+//       dif[i] = u_a(i) - q[i];
+//       difFile << scientific << setprecision(10) << dif[i] << endl;
+//    }
+//    difFile.close();
+// }
 
 int main() {
    eps = 1e-14;   
@@ -339,7 +339,7 @@ int main() {
    CGM();
    dif_u();
    
-   ofstream uFile("u.txt");
+   ofstream uFile("../u.txt");
    for (int i = 0; i < nodes_c; i++) {
 
       uFile << scientific << setprecision(10) << u[i] << endl;

@@ -1,4 +1,5 @@
 cd build
-./kursovaya.exe
+./generate.exe
+./solve.exe
 cd ..
 python 3DGrid.py

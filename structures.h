@@ -1,3 +1,6 @@
+#ifndef STRUCTURES_H
+#define STRUCTURES_H
+
 #include <vector>
 using namespace std;
 
@@ -19,8 +22,7 @@ extern double lam, gam, alpha, beta_beta, norma_pr, eps;
 extern vector <node> nodes;
 extern vector <EL> el;
 extern vector <int> faces, ig, jg;
-extern vector<double> u, dif, di, gg, r, b, q, x, y, z, val, Az, Ar, Mr, M;
-
-extern vector<double> b_loc;
-
+extern vector<double> u, dif, di, gg, r, b, q, x, y, z, val, Az, Ar, Mr, M, b_loc;
 extern vector<vector<double>> A_loc, M_loc, D, alphaM;
+
+#endif // STRUCTURES_H

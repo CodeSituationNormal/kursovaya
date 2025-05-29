@@ -11,5 +11,6 @@
 
 #include "structures.h"
 #include "input.h"
+#include "u_functions.h"
 
 using namespace std;
