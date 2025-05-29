@@ -5,17 +5,17 @@ double x_min, x_max, y_min, y_max, z_min, z_max, t_min, t_max, kx, ky, kz, kt, h
 vector<int> bc1;
 vector<double> t; 
 
-ofstream nodes_out, elements_out;
+ofstream nodes_out, elements_out, f_out;
 
 void buildGrid() {
    nodes_out.open("../nodes_out.txt");
    elements_out.open("../elements_out.txt");
+   f_out.open("../f.txt");
 
    vector<double> x_coords(nx);
    vector<double> y_coords(ny);
    vector<double> z_coords(nz);
 
-   // Вычисляем шаги
    double sum;
    if (kx == 1.0) {
       double hx = (x_max - x_min) / (nx - 1);
@@ -30,7 +30,6 @@ void buildGrid() {
          x_coords[i] = x_coords[i - 1] + hx * pow(kx, i - 1);
    }
 
-   // Аналогично для y
    if (ky == 1.0) {
       double hy = (y_max - y_min) / (ny - 1);
       for (int j = 0; j < ny; ++j)
@@ -44,7 +43,6 @@ void buildGrid() {
          y_coords[j] = y_coords[j - 1] + hy * pow(ky, j - 1);
    }
 
-   // Аналогично для z
    if (kz == 1.0) {
       double hz = (z_max - z_min) / (nz - 1);
       for (int k = 0; k < nz; ++k)
@@ -58,8 +56,7 @@ void buildGrid() {
          z_coords[k] = z_coords[k - 1] + hz * pow(kz, k - 1);
    }
 
-   // Теперь создаём узлы
-   nodes.clear(); // если нужно
+   nodes.clear(); 
    for (int k = 0; k < nz; ++k) {
       for (int j = 0; j < ny; ++j) {
          for (int i = 0; i < nx; ++i) {
@@ -67,6 +64,7 @@ void buildGrid() {
             n.x = x_coords[i];
             n.y = y_coords[j];
             n.z = z_coords[k];
+            n.f = f_auto(i, n.x, n.y, n.z); 
             n.number = nodes.size();
             nodes.push_back(n);
          }
@@ -107,6 +105,7 @@ void buildGrid() {
          << "y = " << n.y << ", "
          << "z = " << n.z << endl;
       nodes_out << n.x << " " << n.y << " " << n.z << endl;
+      f_out << scientific << setprecision(10) << n.f << endl;
    }
    for (const auto& node_n : nodes) if ((node_n.x == x_min) || (node_n.x == x_max) || (node_n.y == y_min) || (node_n.y == y_max) || (node_n.z == z_min) || (node_n.z == z_max))
       bc1.push_back(node_n.number);
@@ -114,6 +113,7 @@ void buildGrid() {
 
    nodes_out.close();
    elements_out.close();
+   f_out.close();
 }
 void input() {
    ifstream inputGrid("../grid.txt");
@@ -135,6 +135,9 @@ void input() {
    inputBc.close();
    inputGrid.close();
    inputNodes.close();
+   nodes.clear();
+   el.clear();
+   faces.clear();
 }
 
 int main() {

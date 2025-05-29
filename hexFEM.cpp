@@ -87,6 +87,17 @@ void GaussJordan(vector<vector<double>> A, vector<vector<double>> alpha, int n) 
    matrix.clear();
 }
 
+static void calc_h() {
+	for (int i = 0; i < el_c; i++) {
+		int node_min_index = el[i].node_n[0];
+		int node_max_index = el[i].node_n[7];
+
+		el[i].hx = nodes[node_max_index].x - nodes[node_min_index].x;
+		el[i].hy = nodes[node_max_index].y - nodes[node_min_index].y;
+		el[i].hz = nodes[node_max_index].z - nodes[node_min_index].z;
+	}
+}
+
 static void local_el(int f_el_n) {
 	double hx = el[f_el_n].hx;
 	double hy = el[f_el_n].hy;
@@ -304,21 +315,6 @@ static void CGM() {
    r.clear(); z.clear(); Az.clear();
 }
 
-// double u_a(int i) {
-//    u[i] = sin(nodes[i].x);
-//    return u[i];
-// }
-// void dif_u() {
-//    dif.resize(nodes_c);
-//    u.resize(nodes_c);
-//    ofstream difFile("dif.txt");
-//    for (int i = 0; i < nodes_c; i++) {
-//       dif[i] = u_a(i) - q[i];
-//       difFile << scientific << setprecision(10) << dif[i] << endl;
-//    }
-//    difFile.close();
-// }
-
 int main() {
    eps = 1e-14;   
    maxiter = 10000;
@@ -338,12 +334,7 @@ int main() {
    global_A();
    CGM();
    dif_u();
-   
-   ofstream uFile("../u.txt");
-   for (int i = 0; i < nodes_c; i++) {
+   print_u();
 
-      uFile << scientific << setprecision(10) << u[i] << endl;
-   }
-   uFile.close();
    return 0;
 }

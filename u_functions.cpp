@@ -1,9 +1,14 @@
 #include "common_includes.h"
 
 double u_a(int i) {
-   u[i] = sin(nodes[i].x);
+   u[i] = nodes[i].x; // modify manually if needed
    return u[i];
 }
+
+double f_auto(int i, double x, double y, double z) {
+   return x; // modify manually if needed
+}
+
 void dif_u() {
    dif.resize(nodes_c);
    u.resize(nodes_c);
@@ -13,4 +18,14 @@ void dif_u() {
       difFile << scientific << setprecision(10) << dif[i] << endl;
    }
    difFile.close();
+}
+
+void print_u() {
+   ofstream uFile("../u.txt");
+   cout << "u ";
+   for (int i = 0; i < nodes_c; i++) {
+      cout << u[i] << " ";
+      uFile << scientific << setprecision(10) << u[i] << endl;
+   }
+   uFile.close();
 }
