@@ -94,6 +94,7 @@ static void calc_h() {
 		el[i].hx = nodes[node_max_index].x - nodes[node_min_index].x;
 		el[i].hy = nodes[node_max_index].y - nodes[node_min_index].y;
 		el[i].hz = nodes[node_max_index].z - nodes[node_min_index].z;
+      cout << endl << el[i].hx << " " << el[i].hy << " " << el[i].hz << endl;
 	}
 }
 
@@ -179,16 +180,9 @@ int find_el_pos(int i, int j) {
 void global_A() {
    int i_gg, glob_i, glob_j;
 
-   A_loc.resize(8);
-   M_loc.resize(8);
-   for (int i = 0; i < 8; i++) {
-      A_loc[i].resize(8, 0);
-      M_loc[i].resize(8, 0);
-   }
-   D.resize(8);
-   for (int i = 0; i < 8; i++) {
-      D[i].resize(8, 0);
-   }
+   A_loc.resize(8, vector<double>(8,0));
+   M_loc.resize(8, vector<double>(8,0));
+   D.resize(8, vector<double>(8,0));
    alphaM.resize(8, vector<double>(8, 0));
    b_loc.resize(8, 0);
 
@@ -228,7 +222,7 @@ void global_A() {
             }
          }
    }
-  /* for (int j = 0; j < face_n; j++) cout << face[j] << endl;
+   // for (int j = 0; j < face_c; j++) cout << faces[j] << endl;
    cout << "di " << ": ";
    for (double node : di)
       cout << node << " ";
@@ -239,7 +233,7 @@ void global_A() {
    cout << "b " << ": ";
    for (double node : b)
       cout << node << " ";
-   cout << endl;*/
+   cout << endl;
 }
 
 static void calc_Av(vector<double>& v, vector<double>& res) {
@@ -330,6 +324,7 @@ int main() {
    input_f(testNumber);
 
    portrait();
+   calc_h();
    global_A();
    CGM();
    dif_u();

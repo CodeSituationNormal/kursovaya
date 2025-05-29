@@ -78,7 +78,7 @@ void buildGrid() {
       t[j] = t[j - 1] + h_temp;
    }
    int n_xy = nx * ny;
-   cout << "Elements grid:" << endl;
+   // cout << "Elements grid:" << endl;
    
    for (int i = 0; i < nx - 1; i++) {
       for (int j = 0; j < ny - 1; j++) {
@@ -93,28 +93,28 @@ void buildGrid() {
             el_cube.node_n[6] = (k + 1) * n_xy + (j + 1) * nx + i;
             el_cube.node_n[7] = (k + 1) * n_xy + (j + 1) * nx + i + 1;
             el.push_back(el_cube);
-            cout << el_cube.node_n[0] << " " << el_cube.node_n[1] << " " << el_cube.node_n[2] << " " << el_cube.node_n[3] << " " << el_cube.node_n[4] << " " << el_cube.node_n[5] << " " << el_cube.node_n[6] << " " << el_cube.node_n[7] << endl;
+            // cout << el_cube.node_n[0] << " " << el_cube.node_n[1] << " " << el_cube.node_n[2] << " " << el_cube.node_n[3] << " " << el_cube.node_n[4] << " " << el_cube.node_n[5] << " " << el_cube.node_n[6] << " " << el_cube.node_n[7] << endl;
             elements_out << el_cube.node_n[0] << " " << el_cube.node_n[1] << " " << el_cube.node_n[2] << " " << el_cube.node_n[3] << " " << el_cube.node_n[4] << " " << el_cube.node_n[5] << " " << el_cube.node_n[6] << " " << el_cube.node_n[7] << endl;
          }
       }
    }
-   cout << endl;
-   cout << "Coordinates: " << endl;
+   // cout << endl;
+   // cout << "Coordinates: " << endl;
    for (const auto& n : nodes) {
-      cout << "Node #" << n.number << ": "
-         << "x = " << n.x << ", "
-         << "y = " << n.y << ", "
-         << "z = " << n.z << endl;
+      // cout << "Node #" << n.number << ": "
+      //    << "x = " << n.x << ", "
+      //    << "y = " << n.y << ", "
+      //    << "z = " << n.z << endl;
       nodes_out << n.x << " " << n.y << " " << n.z << endl;
       f_out << scientific << setprecision(10) << n.f << endl;
    }
    for (const auto& node_n : nodes) if ((node_n.x == x_min) || (node_n.x == x_max) || (node_n.y == y_min) || (node_n.y == y_max) || (node_n.z == z_min) || (node_n.z == z_max))
       bc1.push_back(node_n.number);
    for (const auto& node_num : bc1) {
-      cout << node_num << " ";
+      // cout << node_num << " ";
       faces_out << node_num << " " << u_c(nodes[node_num].x, nodes[node_num].y, nodes[node_num].z) << endl;
    }
-   cout << endl;
+   // cout << endl;
 
    nodes_out.close();
    elements_out.close();
