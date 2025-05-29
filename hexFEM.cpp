@@ -94,7 +94,6 @@ static void calc_h() {
 		el[i].hx = nodes[node_max_index].x - nodes[node_min_index].x;
 		el[i].hy = nodes[node_max_index].y - nodes[node_min_index].y;
 		el[i].hz = nodes[node_max_index].z - nodes[node_min_index].z;
-      cout << endl << el[i].hx << " " << el[i].hy << " " << el[i].hz << endl;
 	}
 }
 
@@ -122,7 +121,7 @@ static void local_el(int f_el_n) {
 	double** gz = nullptr;
 
    A_loc.resize(8, vector<double>(8));
-   b_loc.resize(8, 0);
+   b_loc.resize(nodes_c);
    M_loc.resize(8, vector<double>(8));
 	gx = new double* [8] ();
 	gy = new double* [8] ();
@@ -152,6 +151,8 @@ static void local_el(int f_el_n) {
 			M_loc[i][j] = (hx * hy * hz) * coefX * coefY * coefZ;
 			A_loc[i][j] = (л * hx * hy * hz) * (gx[i][j] / (hx * hx) + gy[i][j] / (hy * hy) + gz[i][j] / (hz * hz)) + г * M_loc[i][j];
 			b_loc[i] += nodes[el[f_el_n].node_n[j]].f * M_loc[i][j];
+
+         // cout << "b loc part: f:" << nodes[el[f_el_n].node_n[j]].f << " x: " << nodes[el[f_el_n].node_n[j]].x << endl;
 		}
 	}
 	for (int i = 0; i < 8; i++)
@@ -180,14 +181,13 @@ int find_el_pos(int i, int j) {
 void global_A() {
    int i_gg, glob_i, glob_j;
 
-   A_loc.resize(8, vector<double>(8,0));
-   M_loc.resize(8, vector<double>(8,0));
-   D.resize(8, vector<double>(8,0));
-   alphaM.resize(8, vector<double>(8, 0));
+   A_loc.resize(8, vector<double>(8));
+   M_loc.resize(8, vector<double>(8));
+   D.resize(8, vector<double>(8));
    b_loc.resize(8, 0);
 
-   di.resize(nodes_c, 0);
-   gg.resize(ig[nodes_c], 0);
+   di.resize(nodes_c);
+   gg.resize(ig[nodes_c]);
    b.resize(nodes_c, 0);
 
 
@@ -203,6 +203,7 @@ void global_A() {
             }
          }
          di[glob_i] += A_loc[i][i];
+         if (glob_i == 13) cout << di[glob_i] << " " << A_loc[i][i] << endl;
          b[glob_i] += b_loc[i];
       }
    }
@@ -280,7 +281,7 @@ static void CGM() {
    for (int i = 0; i < nodes_c; i++) q[i] = 0;  
  
    norma_pr = sqrt(scMult(b, b));
-   cout << " NORMA " << norma_pr << endl;
+   // cout << " NORMA " << norma_pr << endl;
    calc_r0();
    double r_scMult = scMult(r, r);
    z = r;
@@ -295,7 +296,6 @@ static void CGM() {
       nev = sqrt(r_scMult) / norma_pr;
       beta_beta = r_scMult / r_scMult_old;
       calc_z(r);
-    
    }
    ofstream qFile("../q.txt");
   
@@ -309,8 +309,8 @@ static void CGM() {
 }
 
 int main() {
-   eps = 1e-14;   
-   maxiter = 10000;
+   // eps = 1e-14;   
+   // maxiter = 10000;
 
    int testNumber = 0;
 

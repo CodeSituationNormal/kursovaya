@@ -17,6 +17,7 @@ double u_c(double x, double y, double z) {
 
 double f_auto(double x, double y, double z) {
    return x; // modify manually if needed
+   // return 0; // modify manually if needed
 }
 
 void dif_u() {

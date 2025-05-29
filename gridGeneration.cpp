@@ -124,21 +124,18 @@ void buildGrid() {
 void input() {
    ifstream inputGrid("../grid.txt");
    ifstream inputNodes("../nodes.txt");
-   ifstream inputBc("../bc.txt");
 
-   if (!inputGrid.is_open() || !inputNodes.is_open() || !inputBc.is_open()) {
+   if (!inputGrid.is_open() || !inputNodes.is_open()) {
       cerr << "Unable to open input files." << endl;
       exit(1);
    }
 
    inputGrid >> x_min >> x_max >>y_min>>y_max>>z_min>>z_max>> t_min >> t_max;
    inputNodes >> nx >>ny>>nz>> nt >> kx >>ky>>kz>> kt;
-   // inputBc >> bc_left >> bc_right;
    t.resize(nt);
 
    buildGrid();
 
-   inputBc.close();
    inputGrid.close();
    inputNodes.close();
 
