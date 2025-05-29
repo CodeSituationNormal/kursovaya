@@ -1,6 +1,5 @@
 #include "common_includes.h"
 
-
 void portrait() {
    map<int, set<int>> list;
    for (int i = 0; i < el_c; ++i) {
@@ -16,12 +15,12 @@ void portrait() {
       }
    }
    
-  /* for (size_t i = 0; i < list.size(); ++i) {
-      cout << "Node " << i << ": ";
-      for (int node : list[i]) 
-         cout << node << " ";
-      cout << endl;
-   }*/
+   // for (size_t i = 0; i < list.size(); ++i) {
+   //    cout << "Node " << i << ": ";
+   //    for (int node : list[i]) 
+   //       cout << node << " ";
+   //    cout << endl;
+   // }
    int k = 0;
    ig.push_back(0);
    for (int i = 0; i < nodes_c; i++) {
@@ -34,16 +33,16 @@ void portrait() {
       }
       ig.push_back(ig.back() + k);
    }
-  /* cout << "jg " << ": ";
-   for (int node : jg) {
-      cout << node << " ";
-   }
-   cout << endl;
-   cout << "ig " << ": ";
-   for (int node : ig) {
-      cout << node << " ";
-   }
-   cout << endl;*/
+   // cout << "jg " << ": ";
+   // for (int node : jg) {
+   //    cout << node << " ";
+   // }
+   // cout << endl;
+   // cout << "ig " << ": ";
+   // for (int node : ig) {
+   //    cout << node << " ";
+   // }
+   // cout << endl;
 }
 
 void trans_Gauss(vector<vector<double>> A, int i, int n) {
@@ -103,8 +102,10 @@ static void local_el(int f_el_n) {
 	double hy = el[f_el_n].hy;
 	double hz = el[f_el_n].hz;
 
-	double л = el[f_el_n].lambda;
-	double г = el[f_el_n].gamma;
+	// double л = el[f_el_n].lambda;
+	double л = lam;
+	// double г = el[f_el_n].gamma;
+	double г = gam;
 
 	double dx2 = 1 / hx;
 	double x2 = hx / 3;
@@ -119,9 +120,9 @@ static void local_el(int f_el_n) {
 	double** gy = nullptr;
 	double** gz = nullptr;
 
-   A_loc.resize(8, vector<double>(8, 0));
+   A_loc.resize(8, vector<double>(8));
    b_loc.resize(8, 0);
-   M_loc.resize(8, vector<double>(8, 0));
+   M_loc.resize(8, vector<double>(8));
 	gx = new double* [8] ();
 	gy = new double* [8] ();
 	gz = new double* [8] ();
@@ -226,9 +227,7 @@ void global_A() {
                gg[i] = 0;
             }
          }
-
    }
-   
   /* for (int j = 0; j < face_n; j++) cout << face[j] << endl;
    cout << "di " << ": ";
    for (double node : di)
@@ -287,7 +286,7 @@ static void CGM() {
    for (int i = 0; i < nodes_c; i++) q[i] = 0;  
  
    norma_pr = sqrt(scMult(b, b));
-   cout << norma_pr << endl;
+   cout << " NORMA " << norma_pr << endl;
    calc_r0();
    double r_scMult = scMult(r, r);
    z = r;
@@ -319,10 +318,10 @@ int main() {
    eps = 1e-14;   
    maxiter = 10000;
 
-   int testNumber;
+   int testNumber = 0;
 
-   cout << "Enter the test number: ";
-   cin >> testNumber;
+   // cout << "Enter the test number: ";
+   // cin >> testNumber;
 
    input_nodes(testNumber);
    input_el(testNumber);

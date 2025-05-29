@@ -5,12 +5,13 @@ double x_min, x_max, y_min, y_max, z_min, z_max, t_min, t_max, kx, ky, kz, kt, h
 vector<int> bc1;
 vector<double> t; 
 
-ofstream nodes_out, elements_out, f_out;
+ofstream nodes_out, elements_out, f_out, faces_out;
 
 void buildGrid() {
    nodes_out.open("../nodes_out.txt");
    elements_out.open("../elements_out.txt");
    f_out.open("../f.txt");
+   faces_out.open("../faces.txt");
 
    vector<double> x_coords(nx);
    vector<double> y_coords(ny);
@@ -64,7 +65,7 @@ void buildGrid() {
             n.x = x_coords[i];
             n.y = y_coords[j];
             n.z = z_coords[k];
-            n.f = f_auto(i, n.x, n.y, n.z); 
+            n.f = f_auto(n.x, n.y, n.z); 
             n.number = nodes.size();
             nodes.push_back(n);
          }
@@ -109,11 +110,16 @@ void buildGrid() {
    }
    for (const auto& node_n : nodes) if ((node_n.x == x_min) || (node_n.x == x_max) || (node_n.y == y_min) || (node_n.y == y_max) || (node_n.z == z_min) || (node_n.z == z_max))
       bc1.push_back(node_n.number);
-   for (const auto& node_n : bc1) cout << node_n << " ";
+   for (const auto& node_num : bc1) {
+      cout << node_num << " ";
+      faces_out << node_num << " " << u_c(nodes[node_num].x, nodes[node_num].y, nodes[node_num].z) << endl;
+   }
+   cout << endl;
 
    nodes_out.close();
    elements_out.close();
    f_out.close();
+   faces_out.close();
 }
 void input() {
    ifstream inputGrid("../grid.txt");
@@ -127,7 +133,7 @@ void input() {
 
    inputGrid >> x_min >> x_max >>y_min>>y_max>>z_min>>z_max>> t_min >> t_max;
    inputNodes >> nx >>ny>>nz>> nt >> kx >>ky>>kz>> kt;
-   inputBc >> bc_left >> bc_right;
+   // inputBc >> bc_left >> bc_right;
    t.resize(nt);
 
    buildGrid();
@@ -135,6 +141,7 @@ void input() {
    inputBc.close();
    inputGrid.close();
    inputNodes.close();
+
    nodes.clear();
    el.clear();
    faces.clear();

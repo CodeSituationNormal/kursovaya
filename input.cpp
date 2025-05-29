@@ -53,7 +53,7 @@ void input_el(int testNumber) {
 void input_faces(int testNumber) {
    // char filename[50];
    // sprintf_s(filename, "face%d.txt", testNumber);
-   string filename = "../faces_out.txt";
+   string filename = "../faces.txt";
 
    ifstream face_f(filename);
    if (!face_f.is_open()) {
@@ -64,9 +64,11 @@ void input_faces(int testNumber) {
    faces.clear();
    while(!face_f.eof()) {
       int face_node;
-      face_f >> face_node;
+      double value;
+      face_f >> face_node >> value;
       if (face_f.fail()) break; 
       faces.push_back(face_node);
+      val.push_back(value);
    }
 
    face_f.close();

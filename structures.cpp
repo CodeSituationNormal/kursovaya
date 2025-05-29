@@ -1,7 +1,7 @@
 #include "common_includes.h"
 
 int nodes_c, el_c, face_c, testNumber, maxiter;
-double lam, gam, alpha, beta_beta, norma_pr, eps;
+double lam = 0, gam = 1, alpha, beta_beta, norma_pr, eps;
 vector <node> nodes;
 vector <EL> el;
 vector <int> faces, ig, jg;

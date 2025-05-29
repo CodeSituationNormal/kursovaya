@@ -5,7 +5,17 @@ double u_a(int i) {
    return u[i];
 }
 
-double f_auto(int i, double x, double y, double z) {
+double u_c(double x, double y, double z) {
+   return x;
+}
+
+// vector<double> genVal() {
+//    for (int i = 0; i < face_c; i++) {
+
+//    }
+// }
+
+double f_auto(double x, double y, double z) {
    return x; // modify manually if needed
 }
 
@@ -22,10 +32,11 @@ void dif_u() {
 
 void print_u() {
    ofstream uFile("../u.txt");
-   cout << "u ";
+   cout << endl << "u ";
    for (int i = 0; i < nodes_c; i++) {
       cout << u[i] << " ";
       uFile << scientific << setprecision(10) << u[i] << endl;
    }
+   cout << endl;
    uFile.close();
 }
