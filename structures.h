@@ -22,7 +22,7 @@ extern double lam, gam, alpha, beta_beta, norma_pr, eps;
 extern vector <node> nodes;
 extern vector <EL> el;
 extern vector <int> faces, ig, jg;
-extern vector<double> u, dif, di, gg, r, b, q, x, y, z, val, Az, Ar, Mr, M, b_loc;
-extern vector<vector<double>> A_loc, M_loc, D, alphaM;
+extern vector<double> u, dif, di, gg, r, b, q, x, y, z, val, Az, Ar, Mr, b_loc;
+extern vector<vector<double>> A_loc, M_loc, D;
 
 #endif // STRUCTURES_H

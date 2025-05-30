@@ -103,9 +103,9 @@ static void local_el(int f_el_n) {
 	double hz = el[f_el_n].hz;
 
 	// double л = el[f_el_n].lambda;
-	double л = lam;
+	// double л = lam;
 	// double г = el[f_el_n].gamma;
-	double г = gam;
+	// double г = gam;
 
 	double dx2 = 1 / hx;
 	double x2 = hx / 3;
@@ -121,7 +121,8 @@ static void local_el(int f_el_n) {
 	double** gz = nullptr;
 
    A_loc.resize(8, vector<double>(8));
-   b_loc.resize(nodes_c);
+   b_loc.clear();
+   b_loc.resize(8, 0);
    M_loc.resize(8, vector<double>(8));
 	gx = new double* [8] ();
 	gy = new double* [8] ();
@@ -148,12 +149,10 @@ static void local_el(int f_el_n) {
 			gx[i][j] = coefXd * coefY * coefZ;
 			gy[i][j] = coefX * coefYd * coefZ;
 			gz[i][j] = coefX * coefY * coefZd;
-			M_loc[i][j] = (hx * hy * hz) * coefX * coefY * coefZ;
-			A_loc[i][j] = (л * hx * hy * hz) * (gx[i][j] / (hx * hx) + gy[i][j] / (hy * hy) + gz[i][j] / (hz * hz)) + г * M_loc[i][j];
+			M_loc[i][j] = (hx * hy * hz) * coefX * coefY * coefZ; // x 64 less then in excel table???
+			A_loc[i][j] = (lam * hx * hy * hz) * (gx[i][j] / (hx * hx) + gy[i][j] / (hy * hy) + gz[i][j] / (hz * hz)) + gam * M_loc[i][j];
 			b_loc[i] += nodes[el[f_el_n].node_n[j]].f * M_loc[i][j];
-
-         // cout << "b loc part: f:" << nodes[el[f_el_n].node_n[j]].f << " x: " << nodes[el[f_el_n].node_n[j]].x << endl;
-		}
+      }
 	}
 	for (int i = 0; i < 8; i++)
 	{
@@ -181,13 +180,13 @@ int find_el_pos(int i, int j) {
 void global_A() {
    int i_gg, glob_i, glob_j;
 
-   A_loc.resize(8, vector<double>(8));
-   M_loc.resize(8, vector<double>(8));
-   D.resize(8, vector<double>(8));
+   A_loc.resize(8, vector<double>(8, 0));
+   M_loc.resize(8, vector<double>(8, 0));
+   D.resize(8, vector<double>(8, 0));
    b_loc.resize(8, 0);
 
-   di.resize(nodes_c);
-   gg.resize(ig[nodes_c]);
+   di.resize(nodes_c, 0);
+   gg.resize(ig[nodes_c], 0);
    b.resize(nodes_c, 0);
 
 
@@ -203,7 +202,6 @@ void global_A() {
             }
          }
          di[glob_i] += A_loc[i][i];
-         if (glob_i == 13) cout << di[glob_i] << " " << A_loc[i][i] << endl;
          b[glob_i] += b_loc[i];
       }
    }
@@ -224,17 +222,17 @@ void global_A() {
          }
    }
    // for (int j = 0; j < face_c; j++) cout << faces[j] << endl;
-   cout << "di " << ": ";
-   for (double node : di)
-      cout << node << " ";
-   cout << "gg " << ": ";
-   for (double node : gg)
-      cout << node << " ";
-   cout << endl;
-   cout << "b " << ": ";
-   for (double node : b)
-      cout << node << " ";
-   cout << endl;
+   // cout << "di " << ": ";
+   // for (double node : di)
+   //    cout << node << " ";
+   // cout << "gg " << ": ";
+   // for (double node : gg)
+   //    cout << node << " ";
+   // cout << endl;
+   // cout << "b " << ": ";
+   // for (double node : b)
+   //    cout << node << " ";
+   // cout << endl;
 }
 
 static void calc_Av(vector<double>& v, vector<double>& res) {
@@ -277,7 +275,7 @@ static vector<double> vecMult(vector<double>& x, vector<double>& y, vector<doubl
 }
 static void CGM() {
    double nev = 1;
-   q.resize(nodes_c), r.resize(nodes_c), z.resize(nodes_c), Az.resize(nodes_c), Ar.resize(nodes_c), Mr.resize(nodes_c), M.resize(nodes_c);
+   q.resize(nodes_c), r.resize(nodes_c), z.resize(nodes_c), Az.resize(nodes_c), Ar.resize(nodes_c), Mr.resize(nodes_c);
    for (int i = 0; i < nodes_c; i++) q[i] = 0;  
  
    norma_pr = sqrt(scMult(b, b));
@@ -299,9 +297,9 @@ static void CGM() {
    }
    ofstream qFile("../q.txt");
   
-   cout << "q ";
+   // cout << "q ";
    for (int i = 0; i < nodes_c; i++) {
-      cout << q[i] << " ";
+      // cout << q[i] << " ";
       qFile << scientific << setprecision(10) << q[i] << endl;
    }
    qFile.close();
