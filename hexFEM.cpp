@@ -1,5 +1,27 @@
 #include "common_includes.h"
 
+void generate_q123() {
+   q1.resize(nodes_c);
+   q2.resize(nodes_c);
+   q3.resize(nodes_c);
+   for (int i = 0; i < nodes_c; i++) {
+      q1[i] = u_c(nodes[i].x, nodes[i].y, nodes[i].z, t[0]);
+      q2[i] = u_c(nodes[i].x, nodes[i].y, nodes[i].z, t[1]);
+      q3[i] = u_c(nodes[i].x, nodes[i].y, nodes[i].z, t[2]);
+   }
+   current_t = t[3];
+   t_1 = t[2];
+   t_2 = t[1];
+   t_3 = t[0];
+}
+
+void generate_bc1() {
+   val.resize(face_c);
+   for (int i = 0; i < face_c; i++) {
+      val[i] = u_c(nodes[faces[i]].x, nodes[faces[i]].y, nodes[faces[i]].z, current_t);
+   }
+}
+
 void portrait() {
    map<int, set<int>> list;
    for (int i = 0; i < el_c; ++i) {
@@ -127,7 +149,7 @@ static void local_el(int f_el_n) {
 	for (int i = 0; i < 8; i++) {
 		gx[i] = new double[8] ();
 		gy[i] = new double[8] ();
-		gz[i] = new double[8] ();
+		gz[i] = new double[8] ();  
 	}
 	double coefXd = 0, coefYd = 0, coefZd = 0;
 	double coefX = 0, coefY = 0, coefZ = 0;
@@ -148,8 +170,8 @@ static void local_el(int f_el_n) {
 
 			M_loc[i][j] = (hx * hy * hz) * coefX * coefY * coefZ; 
 			G_loc[i][j] = (hx * hy * hz) * (gx[i][j] / (hx * hx) + gy[i][j] / (hy * hy) + gz[i][j] / (hz * hz));
-         
-			A_loc[i][j] = lam * G_loc[i][j] + gam * M_loc[i][j];
+
+			A_loc[i][j] = lam * G_loc[i][j] + sig * M_loc[i][j];
 			b_loc[i] += nodes[el[f_el_n].node_n[j]].f * M_loc[i][j];
       }
 	}
@@ -317,7 +339,11 @@ int main() {
    input_faces(testNumber);
    input_el_coef(testNumber);
    input_f(testNumber);
+   input_t(testNumber);
 
+   generate_q123();
+   generate_bc1();
+   
    portrait();
    calc_h();
    global_A();

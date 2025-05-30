@@ -13,16 +13,24 @@ struct EL {
    int node_n[8]{};
    int number;
    double hx = 0, hy = 0, hz = 0;
-   double lambda, gamma;
 };
 
 
+extern int nx, ny, nz, nt, n;
+extern double x_min, x_max, y_min, y_max, z_min, z_max, t_min, t_max, kx, ky, kz, kt, hx, hy, hz, ht;
+extern vector<int> bc1;
+
+
 extern int nodes_c, el_c, face_c, testNumber, maxiter;
-extern double lam, gam, alpha, beta_beta, norma_pr, eps;
+extern double lam, sig, alpha, beta_beta, norma_pr, eps;
 extern vector <node> nodes;
 extern vector <EL> el;
 extern vector <int> faces, ig, jg;
 extern vector<double> u, dif, di, gg, r, b, q, x, y, z, val, Az, Ar, Mr, b_loc;
 extern vector<vector<double>> A_loc, M_loc, G_loc;
+
+extern vector<double> q1, q2, q3;
+extern vector<double> t; 
+extern double times_c, current_t, t_1, t_2, t_3;
 
 #endif // STRUCTURES_H

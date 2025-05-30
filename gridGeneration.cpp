@@ -1,17 +1,14 @@
 #include "common_includes.h"
 
-int nx, ny, nz, nt, bc_left, bc_right, n;
-double x_min, x_max, y_min, y_max, z_min, z_max, t_min, t_max, kx, ky, kz, kt, hx, hy, hz, ht;
-vector<int> bc1;
-vector<double> t; 
 
-ofstream nodes_out, elements_out, f_out, faces_out;
+ofstream nodes_out, elements_out, f_out, faces_out, time_out;
 
 void buildGrid() {
    nodes_out.open("../nodes_out.txt");
    elements_out.open("../elements_out.txt");
    f_out.open("../f.txt");
    faces_out.open("../faces.txt");
+   time_out.open("../time.txt");
 
    vector<double> x_coords(nx);
    vector<double> y_coords(ny);
@@ -65,18 +62,32 @@ void buildGrid() {
             n.x = x_coords[i];
             n.y = y_coords[j];
             n.z = z_coords[k];
-            n.f = f_auto(n.x, n.y, n.z); 
+            n.f = f_auto(n.x, n.y, n.z, 0); 
             n.number = nodes.size();
             nodes.push_back(n);
          }
       }
    }
 
-   double h_temp = 0;
-   for (int j = 1; j < nt; ++j) {
-      h_temp = ht * pow(kt, j - 1);
-      t[j] = t[j - 1] + h_temp;
+   if (kt == 1.0) {
+      double ht = (t_max - t_min) / (nt - 1);
+      for (int j = 0; j < nt; ++j)
+         t[j] = t_min + j * ht;
    }
+   else {
+      sum = (1.0 - pow(kt, nt - 1)) / (1.0 - kt);
+      double ht = (t_max - t_min) / sum;
+      t[0] = t_min;
+      for (int j = 1; j < nt; ++j)
+         t[j] = t[j - 1] + ht * pow(kt, j - 1);
+   }
+
+
+   time_out << scientific << setprecision(10) << t_min << endl;
+   for (int j = 1; j < nt; ++j) {
+      time_out << scientific << setprecision(10) << t[j] << endl;
+   }
+   
    int n_xy = nx * ny;
    // cout << "Elements grid:" << endl;
    
@@ -112,7 +123,8 @@ void buildGrid() {
       bc1.push_back(node_n.number);
    for (const auto& node_num : bc1) {
       // cout << node_num << " ";
-      faces_out << node_num << " " << u_c(nodes[node_num].x, nodes[node_num].y, nodes[node_num].z) << endl;
+      // faces_out << node_num << " " << u_c(nodes[node_num].x, nodes[node_num].y, nodes[node_num].z, 0) << endl;
+      faces_out << node_num << " " << endl;
    }
    // cout << endl;
 
@@ -120,6 +132,7 @@ void buildGrid() {
    elements_out.close();
    f_out.close();
    faces_out.close();
+   time_out.close();
 }
 void input() {
    ifstream inputGrid("../grid.txt");
@@ -142,6 +155,12 @@ void input() {
    nodes.clear();
    el.clear();
    faces.clear();
+   bc1.clear();
+   t.clear();
+   nodes_c = 0;
+   el_c = 0;
+   face_c = 0;
+   times_c = 0;
 }
 
 int main() {

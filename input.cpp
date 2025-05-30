@@ -64,11 +64,12 @@ void input_faces(int testNumber) {
    faces.clear();
    while(!face_f.eof()) {
       int face_node;
-      double value;
-      face_f >> face_node >> value;
+      // double value;
+      // face_f >> face_node >> value;
+      face_f >> face_node;
       if (face_f.fail()) break; 
       faces.push_back(face_node);
-      val.push_back(value);
+      // val.push_back(value);
    }
 
    face_f.close();
@@ -86,7 +87,7 @@ void input_el_coef(int testNumber) {
       perror("No such file");
       return;
    }
-   el_coef_f >> lam >> gam;
+   el_coef_f >> lam >> sig;
    if (el_coef_f.fail()) {
       perror("Error reading file");
       return;
@@ -113,4 +114,31 @@ void input_f(int testNumber) {
       return;
    }
    f_f.close();
+} 
+
+void input_t(int testNumber) {
+   // char filename[50];
+   // sprintf_s(filename, "f%d.txt", testNumber);
+
+   string filename = "../time.txt";
+
+   ifstream t_t(filename);
+   if (!t_t.is_open()) {
+      perror("No such file");
+      return;
+   }
+   
+   while(!t_t.eof()) {
+      double time_value;
+      t_t >> time_value;
+      if (t_t.fail()) break; 
+      t.push_back(time_value);
+   }
+
+   times_c = t.size();
+   t_min = t[0];
+   t_max = t[times_c - 1];
+   ht = t[1] - t[0];
+   
+   t_t.close();
 } 

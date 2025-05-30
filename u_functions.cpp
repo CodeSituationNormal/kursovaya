@@ -1,15 +1,15 @@
 #include "common_includes.h"
 
-double u_a(int i) {
+double u_a(int i, double t) {
    u[i] = nodes[i].x; // modify manually if needed
    return u[i];
 }
 
-double u_c(double x, double y, double z) {
+double u_c(double x, double y, double z, double t) {
    return x; // modify manually if needed
 }
 
-double f_auto(double x, double y, double z) {
+double f_auto(double x, double y, double z, double t) {
    return x; // modify manually if needed
 }
 
@@ -18,7 +18,7 @@ void dif_u() {
    u.resize(nodes_c);
    ofstream difFile("../dif.txt");
    for (int i = 0; i < nodes_c; i++) {
-      dif[i] = u_a(i) - q[i];
+      dif[i] = u_a(i, 0) - q[i];
       difFile << scientific << setprecision(10) << dif[i] << endl;
    }
    difFile.close();
