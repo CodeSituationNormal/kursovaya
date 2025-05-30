@@ -102,11 +102,6 @@ static void local_el(int f_el_n) {
 	double hy = el[f_el_n].hy;
 	double hz = el[f_el_n].hz;
 
-	// double л = el[f_el_n].lambda;
-	// double л = lam;
-	// double г = el[f_el_n].gamma;
-	// double г = gam;
-
 	double dx2 = 1 / hx;
 	double x2 = hx / 3;
 
@@ -124,6 +119,7 @@ static void local_el(int f_el_n) {
    b_loc.clear();
    b_loc.resize(8, 0);
    M_loc.resize(8, vector<double>(8));
+   G_loc.resize(8, vector<double>(8));
 	gx = new double* [8] ();
 	gy = new double* [8] ();
 	gz = new double* [8] ();
@@ -149,8 +145,11 @@ static void local_el(int f_el_n) {
 			gx[i][j] = coefXd * coefY * coefZ;
 			gy[i][j] = coefX * coefYd * coefZ;
 			gz[i][j] = coefX * coefY * coefZd;
-			M_loc[i][j] = (hx * hy * hz) * coefX * coefY * coefZ; // x 64 less then in excel table???
-			A_loc[i][j] = (lam * hx * hy * hz) * (gx[i][j] / (hx * hx) + gy[i][j] / (hy * hy) + gz[i][j] / (hz * hz)) + gam * M_loc[i][j];
+
+			M_loc[i][j] = (hx * hy * hz) * coefX * coefY * coefZ; 
+			G_loc[i][j] = (hx * hy * hz) * (gx[i][j] / (hx * hx) + gy[i][j] / (hy * hy) + gz[i][j] / (hz * hz));
+         
+			A_loc[i][j] = lam * G_loc[i][j] + gam * M_loc[i][j];
 			b_loc[i] += nodes[el[f_el_n].node_n[j]].f * M_loc[i][j];
       }
 	}
@@ -181,8 +180,6 @@ void global_A() {
    int i_gg, glob_i, glob_j;
 
    A_loc.resize(8, vector<double>(8, 0));
-   M_loc.resize(8, vector<double>(8, 0));
-   D.resize(8, vector<double>(8, 0));
    b_loc.resize(8, 0);
 
    di.resize(nodes_c, 0);

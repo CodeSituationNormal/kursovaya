@@ -6,4 +6,4 @@ vector <node> nodes;
 vector <EL> el;
 vector <int> faces, ig, jg;
 vector<double> u, dif, di, gg, r, b, q, x, y, z, val, Az, Ar, Mr, b_loc;
-vector<vector<double>> A_loc, M_loc, D;
+vector<vector<double>> A_loc, M_loc, G_loc;

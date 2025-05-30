@@ -23,6 +23,6 @@ extern vector <node> nodes;
 extern vector <EL> el;
 extern vector <int> faces, ig, jg;
 extern vector<double> u, dif, di, gg, r, b, q, x, y, z, val, Az, Ar, Mr, b_loc;
-extern vector<vector<double>> A_loc, M_loc, D;
+extern vector<vector<double>> A_loc, M_loc, G_loc;
 
 #endif // STRUCTURES_H
