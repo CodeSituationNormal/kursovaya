@@ -31,6 +31,7 @@ extern vector<vector<double>> A_loc, M_loc, G_loc;
 
 extern vector<double> q1, q2, q3;
 extern vector<double> t; 
-extern double times_c, current_t, t_1, t_2, t_3;
+extern int times_c;
+extern double current_t, t_1, t_2, t_3, c_0, c_1, c_2, c_3;;
 
 #endif // STRUCTURES_H

@@ -1,12 +1,12 @@
 #include "common_includes.h"
 
 
-ofstream nodes_out, elements_out, f_out, faces_out, time_out;
+ofstream nodes_out, elements_out, faces_out, time_out; //- f_out
 
 void buildGrid() {
    nodes_out.open("../nodes_out.txt");
    elements_out.open("../elements_out.txt");
-   f_out.open("../f.txt");
+   // f_out.open("../f.txt");
    faces_out.open("../faces.txt");
    time_out.open("../time.txt");
 
@@ -117,7 +117,7 @@ void buildGrid() {
       //    << "y = " << n.y << ", "
       //    << "z = " << n.z << endl;
       nodes_out << n.x << " " << n.y << " " << n.z << endl;
-      f_out << scientific << setprecision(10) << n.f << endl;
+      // f_out << scientific << setprecision(10) << n.f << endl;
    }
    for (const auto& node_n : nodes) if ((node_n.x == x_min) || (node_n.x == x_max) || (node_n.y == y_min) || (node_n.y == y_max) || (node_n.z == z_min) || (node_n.z == z_max))
       bc1.push_back(node_n.number);
@@ -130,7 +130,7 @@ void buildGrid() {
 
    nodes_out.close();
    elements_out.close();
-   f_out.close();
+   // f_out.close();
    faces_out.close();
    time_out.close();
 }

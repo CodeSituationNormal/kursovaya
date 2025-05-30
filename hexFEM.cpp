@@ -1,13 +1,15 @@
 #include "common_includes.h"
 
+int t_it = 3;
+
 void generate_q123() {
    q1.resize(nodes_c);
    q2.resize(nodes_c);
    q3.resize(nodes_c);
    for (int i = 0; i < nodes_c; i++) {
-      q1[i] = u_c(nodes[i].x, nodes[i].y, nodes[i].z, t[0]);
+      q1[i] = u_c(nodes[i].x, nodes[i].y, nodes[i].z, t[2]);
       q2[i] = u_c(nodes[i].x, nodes[i].y, nodes[i].z, t[1]);
-      q3[i] = u_c(nodes[i].x, nodes[i].y, nodes[i].z, t[2]);
+      q3[i] = u_c(nodes[i].x, nodes[i].y, nodes[i].z, t[0]);
    }
    current_t = t[3];
    t_1 = t[2];
@@ -19,6 +21,12 @@ void generate_bc1() {
    val.resize(face_c);
    for (int i = 0; i < face_c; i++) {
       val[i] = u_c(nodes[faces[i]].x, nodes[faces[i]].y, nodes[faces[i]].z, current_t);
+   }
+}
+
+void generate_f() {
+   for (int i = 0; i < nodes_c; i++) {
+      nodes[i].f = f_auto(nodes[i].x, nodes[i].y, nodes[i].z, current_t);
    }
 }
 
@@ -155,6 +163,7 @@ static void local_el(int f_el_n) {
 	double coefX = 0, coefY = 0, coefZ = 0;
 	for (int i = 0; i < 8; i++)
 	{
+      double Mq1 = 0, Mq2 = 0, Mq3 = 0;
 		for (int j = 0; j < 8; j++)
 		{
 			if ((i % 2 != 0 && j % 2 != 0) || (i % 2 == 0 && j % 2 == 0)) coefXd = dx2, coefX = x2;
@@ -171,9 +180,14 @@ static void local_el(int f_el_n) {
 			M_loc[i][j] = (hx * hy * hz) * coefX * coefY * coefZ; 
 			G_loc[i][j] = (hx * hy * hz) * (gx[i][j] / (hx * hx) + gy[i][j] / (hy * hy) + gz[i][j] / (hz * hz));
 
-			A_loc[i][j] = lam * G_loc[i][j] + sig * M_loc[i][j];
+			A_loc[i][j] = lam * G_loc[i][j] + sig * M_loc[i][j] * c_0;
 			b_loc[i] += nodes[el[f_el_n].node_n[j]].f * M_loc[i][j];
+
+         Mq1 += M_loc[i][j] * q1[el[f_el_n].node_n[j]];
+         Mq2 += M_loc[i][j] * q2[el[f_el_n].node_n[j]];
+         Mq3 += M_loc[i][j] * q3[el[f_el_n].node_n[j]];
       }
+      b_loc[i] -= sig * (c_1 * Mq1 + c_2 * Mq2 + c_3 * Mq3);
 	}
 	for (int i = 0; i < 8; i++)
 	{
@@ -208,6 +222,20 @@ void global_A() {
    gg.resize(ig[nodes_c], 0);
    b.resize(nodes_c, 0);
 
+   // Should be generated every time step
+   generate_bc1();
+   generate_f();
+
+   double tj = current_t, tj_1 = t[t_it - 1], tj_2 = t[t_it - 2], tj_3 = t[t_it - 3];
+   cout << tj << " " << tj_1 << " " << tj_2 << " " << tj_3 << endl;
+   c_0 = (3 * pow(tj, 2) - (2 * tj_1 * tj) - (2 * tj_2 * tj) - (2 * tj_3 * tj) + (tj_2 * tj_1) + (tj_1 * tj_3) + (tj_2 * tj_3)) / ((tj - tj_3) * (tj - tj_2) * (tj - tj_1));
+   cout << "c_0 " << c_0 << endl;
+   c_1 = (tj * tj - tj * tj_2 - tj_3 * tj + tj_3 * tj_2) / ((tj_1 - tj_3) * (tj_1 - tj_2) * (tj_1 - tj));
+   cout <<"c_1 " << c_1 << endl;
+   c_2 = (tj * tj - tj_1 * tj - tj_3 * tj + tj_3 * tj_1) / ((tj_2 - tj_3) * (tj_2 - tj_1) * (tj_2 - tj));
+   cout << "c_2 " << c_2 << endl;
+   c_3 = (tj * tj - tj_1 * tj - tj_2 * tj + tj_2 * tj_1) / ((tj_3 - tj_2) * (tj_3 - tj_1) * (tj_3 - tj));
+   cout << "c_3 " << c_3 << endl;
 
    for (int k = 0; k < el_c; k++) {
       local_el(k);
@@ -252,6 +280,7 @@ void global_A() {
    // for (double node : b)
    //    cout << node << " ";
    // cout << endl;
+   val.clear();
 }
 
 static void calc_Av(vector<double>& v, vector<double>& res) {
@@ -325,6 +354,44 @@ static void CGM() {
    r.clear(); z.clear(); Az.clear();
 }
 
+void fourth_order_temporal_scheme() {
+   generate_q123();
+
+   cout << "t = 0" << endl;
+   for (int i = 0; i < nodes_c; i++)
+      cout << q3[i] << endl;
+   cout << endl;
+   cout << "t = " << ht << endl;
+   for (int i = 0; i < nodes_c; i++)
+      cout << q2[i] << endl;
+   cout << endl;
+   cout << "t = " << 2 * ht << endl;
+   for (int i = 0; i < nodes_c; i++)
+      cout << q1[i] << endl;
+   cout << endl;
+   
+   while(t_it != times_c - 1){
+      global_A();
+      CGM();
+
+      cout << "t = " << current_t << endl;
+      for (int i = 0; i < nodes_c; i++){
+         cout << q[i] << " ";
+         q3[i] = q2[i]; 
+         q2[i] = q1[i];
+         q1[i] = q[i];
+      }
+      cout << endl;
+
+      t_it++;
+      current_t = t[t_it];
+   }
+
+   gg.clear();
+   di.clear();
+   b.clear();
+}
+
 int main() {
    // eps = 1e-14;   
    // maxiter = 10000;
@@ -338,18 +405,18 @@ int main() {
    input_el(testNumber);
    input_faces(testNumber);
    input_el_coef(testNumber);
-   input_f(testNumber);
+   // input_f(testNumber);
    input_t(testNumber);
-
-   generate_q123();
-   generate_bc1();
    
    portrait();
    calc_h();
-   global_A();
-   CGM();
-   dif_u();
-   print_u();
+
+   fourth_order_temporal_scheme();
+
+   // global_A();
+   // CGM();
+   // dif_u();
+   // print_u();
 
    return 0;
 }
