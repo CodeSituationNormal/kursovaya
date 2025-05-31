@@ -1,6 +1,11 @@
 #include "common_includes.h"
 
 int t_it = 3;
+ofstream outf;
+
+double sigma() {
+   return 1;
+}
 
 void generate_q123() {
    q1.resize(nodes_c);
@@ -178,14 +183,14 @@ static void local_el(int f_el_n) {
 			M_loc[i][j] = (hx * hy * hz) * coefX * coefY * coefZ; 
 			G_loc[i][j] = (hx * hy * hz) * (gx[i][j] / (hx * hx) + gy[i][j] / (hy * hy) + gz[i][j] / (hz * hz));
 
-			A_loc[i][j] = lam * G_loc[i][j] + sig * M_loc[i][j] * c_0;
-			b_loc[i] += nodes[el[f_el_n].node_n[j]].f * M_loc[i][j]; // * sig * c_0;
+			A_loc[i][j] = lam * G_loc[i][j] + sigma() * M_loc[i][j] * c_0;
+			b_loc[i] += nodes[el[f_el_n].node_n[j]].f * M_loc[i][j]; 
 
          Mq1 += M_loc[i][j] * q1[el[f_el_n].node_n[j]];
          Mq2 += M_loc[i][j] * q2[el[f_el_n].node_n[j]];
          Mq3 += M_loc[i][j] * q3[el[f_el_n].node_n[j]];
       }
-      b_loc[i] -= sig * (c_1 * Mq1 + c_2 * Mq2 + c_3 * Mq3);
+      b_loc[i] -= sigma() * (c_1 * Mq1 + c_2 * Mq2 + c_3 * Mq3);
 	}
 	for (int i = 0; i < 8; i++)
 	{
@@ -212,22 +217,19 @@ void calc_c() {
 
    t0p2 = t0 * t0;
 
-   cout << " times " << t0 << " " << t1 << " " << t2 << " " << t3 << endl;
+   // cout << " times " << t0 << " " << t1 << " " << t2 << " " << t3 << endl;
 
    c_0 = (3 * t0p2 - 2 * t0 * (t1 + t2 + t3) + (t1 * t2) + (t1 * t3) + (t2 * t3)) / (d01 * d02 * d03);
-   cout << "nu0: " << c_0 << endl;
+   // cout << "nu0: " << c_0 << endl;
 
    c_1 = (t0p2 - t0 * t2 - t3 * t0 + t3 * t2) / (d13 * d12 * (-d01));
-   cout <<"nu1: " << c_1 << endl;
+   // cout <<"nu1: " << c_1 << endl;
 
    c_2 = (t0p2 - t1 * t0 - t3 * t0 + t3 * t1) / (d23 * (-d12) * (-d02));
-   cout << "nu2: " << c_2 << endl;
+   // cout << "nu2: " << c_2 << endl;
 
    c_3 = (t0p2 - t1 * t0 - t2 * t0 + t2 * t1) / ((-d23) * (-d13) * (-d03));
-   cout << "nu3: " << c_3 << endl;
-
-   double approx_dt = c_1 * t1 + c_2 * t2 + c_3 * t3;
-   cout << "approx dt " << approx_dt << endl;
+   // cout << "nu3: " << c_3 << endl;
 }
 
 int find_el_pos(int i, int j) {
@@ -291,17 +293,17 @@ void global_A() {
          }
    }
    // for (int j = 0; j < face_c; j++) cout << faces[j] << endl;
-   cout << "di " << ": ";
-   for (double node : di)
-      cout << node << " ";
-   cout << "gg " << ": ";
-   for (double node : gg)
-      cout << node << " ";
-   cout << endl;
-   cout << "b " << ": ";
-   for (double node : b)
-      cout << node << " ";
-   cout << endl;
+   // cout << "di " << ": ";
+   // for (double node : di)
+   //    cout << node << " ";
+   // cout << "gg " << ": ";
+   // for (double node : gg)
+   //    cout << node << " ";
+   // cout << endl;
+   // cout << "b " << ": ";
+   // for (double node : b)
+   //    cout << node << " ";
+   // cout << endl;
 
    val.clear();
 }
@@ -350,7 +352,6 @@ static void CGM() {
    for (int i = 0; i < nodes_c; i++) q[i] = 0;  
  
    norma_pr = sqrt(scMult(b, b));
-   // cout << " NORMA " << norma_pr << endl;
    calc_r0();
    double r_scMult = scMult(r, r);
    z = r;
@@ -366,45 +367,74 @@ static void CGM() {
       beta_beta = r_scMult / r_scMult_old;
       calc_z(r);
    }
-   ofstream qFile("../q.txt");
+   // ofstream qFile("../q.txt");
   
    // cout << "q ";
+   // for (int i = 0; i < nodes_c; i++) {
+   //    // cout << q[i] << " ";
+   //    qFile << scientific << setprecision(10) << q[i] << endl;
+   // }
+
+   dif.resize(nodes_c);
+   u.resize(nodes_c);
    for (int i = 0; i < nodes_c; i++) {
-      // cout << q[i] << " ";
-      qFile << scientific << setprecision(10) << q[i] << endl;
+      dif[i] = u_a(i, current_t) - q[i];
    }
-   qFile.close();
+
+   double norma_dif = sqrt(scMult(dif, dif));
+   // cout << norma_dif << endl;
+   // outf << norma_dif << " "; //????
+   dif.clear();
+   u.clear();
+
+   // qFile.close();
    r.clear(); z.clear(); Az.clear();
 }
 
 void fourth_order_temporal_scheme() {
    generate_q123();
 
-   cout << "t = 0" << endl;
+   // cout << "t = " << t[0] << endl;
+   // for (int i = 0; i < nodes_c; i++)
+   //    cout << q3[i] << " ";
+   // cout << endl;
+   // cout << "t = " << t[1] << endl;
+   // for (int i = 0; i < nodes_c; i++)
+   //    cout << q2[i] << " ";
+   // cout << endl;
+   // cout << "t = " << t[2] << endl;
+   // for (int i = 0; i < nodes_c; i++)
+   //    cout << q1[i] << " ";
+   // cout << endl;
+
+   outf << scientific << setprecision(10) << t[0] << " ";
    for (int i = 0; i < nodes_c; i++)
-      cout << q3[i] << endl;
-   cout << endl;
-   cout << "t = " << ht << endl;
+      outf << scientific << setprecision(10) << q3[i] << " ";
+   outf << endl;
+   outf << t[1] << " ";
    for (int i = 0; i < nodes_c; i++)
-      cout << q2[i] << endl;
-   cout << endl;
-   cout << "t = " << 2 * ht << endl;
+      outf << scientific << setprecision(10) << q2[i] << " ";
+   outf << endl;
+   outf << t[2] << " ";
    for (int i = 0; i < nodes_c; i++)
-      cout << q1[i] << endl;
-   cout << endl;
+      outf << scientific << setprecision(10) << q1[i] << " ";
+   outf << endl;
    
    while(t_it != times_c){
       global_A();
       CGM();
 
-      cout << "t = " << current_t << endl;
+      // cout << "t = " << current_t << endl;
+      outf << current_t << " ";
       for (int i = 0; i < nodes_c; i++){
-         cout << q[i] << " ";
+         // cout << q[i] << " ";
+         outf << scientific << setprecision(10) << q[i] << " ";
          q3[i] = q2[i]; 
          q2[i] = q1[i];
          q1[i] = q[i];
       }
-      cout << endl;
+      // cout << endl;
+      outf << endl;
 
       t_it++;
       current_t = t[t_it];
@@ -417,7 +447,7 @@ void fourth_order_temporal_scheme() {
 int main() {
    // eps = 1e-14;   
    // maxiter = 10000;
-
+   outf.open("../output.txt");
    int testNumber = 0;
 
    // cout << "Enter the test number: ";
@@ -439,6 +469,8 @@ int main() {
    // CGM();
    // dif_u();
    // print_u();
+
+   outf.close();
 
    return 0;
 }
