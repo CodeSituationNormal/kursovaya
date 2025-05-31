@@ -161,11 +161,9 @@ static void local_el(int f_el_n) {
 	}
 	double coefXd = 0, coefYd = 0, coefZd = 0;
 	double coefX = 0, coefY = 0, coefZ = 0;
-	for (int i = 0; i < 8; i++)
-	{
+	for (int i = 0; i < 8; i++) {
       double Mq1 = 0, Mq2 = 0, Mq3 = 0;
-		for (int j = 0; j < 8; j++)
-		{
+		for (int j = 0; j < 8; j++) {
 			if ((i % 2 != 0 && j % 2 != 0) || (i % 2 == 0 && j % 2 == 0)) coefXd = dx2, coefX = x2;
 			else coefXd = -dx2, coefX = x2 / 2;
 			if ((i < 4 && j < 4) || (i >= 4 && j >= 4)) coefZd = dz2, coefZ = z2;
@@ -198,6 +196,35 @@ static void local_el(int f_el_n) {
 	delete[] gx;
 	delete[] gy;
 	delete[] gz;
+   M_loc.clear();
+   G_loc.clear();
+}
+
+void calc_c() {
+   double t0 = current_t, t1 = t[t_it - 1], t2 = t[t_it - 2], t3 = t[t_it - 3], d01, d02, d03, d12, d13, d23, t0p2;
+
+   d01 = t0 - t1;
+   d02 = t0 - t2;
+   d03 = t0 - t3;
+   d12 = t1 - t2;
+   d13 = t1 - t3;
+   d23 = t2 - t3;
+
+   t0p2 = t0 * t0;
+
+   cout << " times " << t0 << " " << t1 << " " << t2 << " " << t3 << endl;
+
+   c_0 = (3 * t0p2 - 2 * t0 * (t1 + t2 + t3) + (t1 * t2) + (t1 * t3) + (t2 * t3)) / (d01 * d02 * d03);
+   cout << "nu0: " << c_0 << endl;
+
+   c_1 = (t0p2 - t0 * t2 - t3 * t0 + t3 * t2) / (d13 * d12 * (-d01));
+   cout <<"nu1: " << c_1 << endl;
+
+   c_2 = (t0p2 - t1 * t0 - t3 * t0 + t3 * t1) / (d23 * (-d12) * (-d02));
+   cout << "nu2: " << c_2 << endl;
+
+   c_3 = (t0p2 - t1 * t0 - t2 * t0 + t2 * t1) / ((-d23) * (-d13) * (-d03));
+   cout << "nu3: " << c_3 << endl;
 }
 
 int find_el_pos(int i, int j) {
@@ -225,17 +252,7 @@ void global_A() {
    // Should be generated every time step
    generate_bc1();
    generate_f();
-
-   double tj = current_t, tj_1 = t[t_it - 1], tj_2 = t[t_it - 2], tj_3 = t[t_it - 3];
-   cout << tj << " " << tj_1 << " " << tj_2 << " " << tj_3 << endl;
-   c_0 = (3 * pow(tj, 2) - (2 * tj_1 * tj) - (2 * tj_2 * tj) - (2 * tj_3 * tj) + (tj_2 * tj_1) + (tj_1 * tj_3) + (tj_2 * tj_3)) / ((tj - tj_3) * (tj - tj_2) * (tj - tj_1));
-   cout << "c_0 " << c_0 << endl;
-   c_1 = (tj * tj - tj * tj_2 - tj_3 * tj + tj_3 * tj_2) / ((tj_1 - tj_3) * (tj_1 - tj_2) * (tj_1 - tj));
-   cout <<"c_1 " << c_1 << endl;
-   c_2 = (tj * tj - tj_1 * tj - tj_3 * tj + tj_3 * tj_1) / ((tj_2 - tj_3) * (tj_2 - tj_1) * (tj_2 - tj));
-   cout << "c_2 " << c_2 << endl;
-   c_3 = (tj * tj - tj_1 * tj - tj_2 * tj + tj_2 * tj_1) / ((tj_3 - tj_2) * (tj_3 - tj_1) * (tj_3 - tj));
-   cout << "c_3 " << c_3 << endl;
+   calc_c();
 
    for (int k = 0; k < el_c; k++) {
       local_el(k);
@@ -251,6 +268,8 @@ void global_A() {
          di[glob_i] += A_loc[i][i];
          b[glob_i] += b_loc[i];
       }
+      A_loc.clear();
+      b_loc.clear();
    }
    for (int j = 0; j < face_c; j++) {
       glob_i = faces[j];
@@ -269,17 +288,17 @@ void global_A() {
          }
    }
    // for (int j = 0; j < face_c; j++) cout << faces[j] << endl;
-   // cout << "di " << ": ";
-   // for (double node : di)
-   //    cout << node << " ";
-   // cout << "gg " << ": ";
-   // for (double node : gg)
-   //    cout << node << " ";
-   // cout << endl;
-   // cout << "b " << ": ";
-   // for (double node : b)
-   //    cout << node << " ";
-   // cout << endl;
+   cout << "di " << ": ";
+   for (double node : di)
+      cout << node << " ";
+   cout << "gg " << ": ";
+   for (double node : gg)
+      cout << node << " ";
+   cout << endl;
+   cout << "b " << ": ";
+   for (double node : b)
+      cout << node << " ";
+   cout << endl;
    val.clear();
 }
 
@@ -370,7 +389,7 @@ void fourth_order_temporal_scheme() {
       cout << q1[i] << endl;
    cout << endl;
    
-   while(t_it != times_c - 1){
+   while(t_it != times_c){
       global_A();
       CGM();
 
