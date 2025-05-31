@@ -179,7 +179,7 @@ static void local_el(int f_el_n) {
 			G_loc[i][j] = (hx * hy * hz) * (gx[i][j] / (hx * hx) + gy[i][j] / (hy * hy) + gz[i][j] / (hz * hz));
 
 			A_loc[i][j] = lam * G_loc[i][j] + sig * M_loc[i][j] * c_0;
-			b_loc[i] += nodes[el[f_el_n].node_n[j]].f * M_loc[i][j];
+			b_loc[i] += nodes[el[f_el_n].node_n[j]].f * M_loc[i][j]; // * sig * c_0;
 
          Mq1 += M_loc[i][j] * q1[el[f_el_n].node_n[j]];
          Mq2 += M_loc[i][j] * q2[el[f_el_n].node_n[j]];
@@ -225,6 +225,9 @@ void calc_c() {
 
    c_3 = (t0p2 - t1 * t0 - t2 * t0 + t2 * t1) / ((-d23) * (-d13) * (-d03));
    cout << "nu3: " << c_3 << endl;
+
+   double approx_dt = c_1 * t1 + c_2 * t2 + c_3 * t3;
+   cout << "approx dt " << approx_dt << endl;
 }
 
 int find_el_pos(int i, int j) {
@@ -299,6 +302,7 @@ void global_A() {
    for (double node : b)
       cout << node << " ";
    cout << endl;
+
    val.clear();
 }
 
@@ -404,11 +408,10 @@ void fourth_order_temporal_scheme() {
 
       t_it++;
       current_t = t[t_it];
+      gg.clear();
+      di.clear();
+      b.clear();
    }
-
-   gg.clear();
-   di.clear();
-   b.clear();
 }
 
 int main() {
