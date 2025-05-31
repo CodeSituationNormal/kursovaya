@@ -18,7 +18,7 @@ def plot_3d_mesh(nodes, elements):
     fig = plt.figure(figsize=(10, 8))
     ax = fig.add_subplot(111, projection='3d')
 
-    # определение граней гексаэдра
+    # Определение граней гексаэдра
     faces = [
         [0, 1, 3, 2], [4, 5, 7, 6],
         [0, 1, 5, 4], [2, 3, 7, 6],
@@ -29,10 +29,15 @@ def plot_3d_mesh(nodes, elements):
         verts = [nodes[i] for i in elem]
         for face in faces:
             square = [verts[idx] for idx in face]
-            poly = Poly3DCollection([square], alpha=0.3, edgecolor='k')
+            poly = Poly3DCollection(
+                [square], 
+                alpha=0.3, 
+                edgecolor='k',
+                facecolor='pink'  
+            )
             ax.add_collection3d(poly)
 
-    # отрисовка узлов
+    # Отрисовка узлов
     nodes_np = np.array(nodes)
     ax.scatter(nodes_np[:, 0], nodes_np[:, 1], nodes_np[:, 2], color='r', s=5)
 
@@ -45,5 +50,5 @@ def plot_3d_mesh(nodes, elements):
 
 if __name__ == "__main__":
     nodes = read_nodes("nodes_out.txt")
-    elements = read_elements("elements_out.txt", zero_indexed=True)  # ставь False если номера с 1
+    elements = read_elements("elements_out.txt", zero_indexed=True)
     plot_3d_mesh(nodes, elements)

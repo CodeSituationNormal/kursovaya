@@ -1,7 +1,7 @@
 #include "common_includes.h"
 
 int t_it = 3;
-ofstream outf;
+ofstream outf, outdif;
 
 double sigma() {
    return 1;
@@ -381,7 +381,8 @@ static void CGM() {
       dif[i] = u_a(i, current_t) - q[i];
    }
 
-   double norma_dif = sqrt(scMult(dif, dif));
+   // double norma_dif = sqrt(scMult(dif, dif));
+   outdif << current_t << " " << scientific << setprecision(10) << dif[13] << endl;
    // cout << norma_dif << endl;
    // outf << norma_dif << " "; //????
    dif.clear();
@@ -448,6 +449,7 @@ int main() {
    // eps = 1e-14;   
    // maxiter = 10000;
    outf.open("../output.txt");
+   outdif.open("../dif.txt");
    int testNumber = 0;
 
    // cout << "Enter the test number: ";
@@ -471,6 +473,7 @@ int main() {
    // print_u();
 
    outf.close();
+   outdif.close();
 
    return 0;
 }
